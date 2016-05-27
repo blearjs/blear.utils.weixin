@@ -10,10 +10,10 @@
 
 var string = require('blear.utils.string');
 var object = require('blear.utils.object');
-var fun = require('blear.utils.function');
+var fun =    require('blear.utils.function');
 var typeis = require('blear.utils.typeis');
-var array = require('blear.utils.array');
-var Class = require('blear.classes.class');
+var array =  require('blear.utils.array');
+var Class =  require('blear.classes.class');
 
 
 var wx = require('./_weixin');
