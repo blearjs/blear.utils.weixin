@@ -12,6 +12,7 @@ var string = require('blear.utils.string');
 var object = require('blear.utils.object');
 var fun = require('blear.utils.function');
 var typeis = require('blear.utils.typeis');
+var time = require('blear.utils.time');
 var array = require('blear.utils.array');
 var Class = require('blear.classes.class');
 
@@ -277,26 +278,12 @@ var Weixin = Class.extend({
         return the;
     }
 });
-var _initEvent = Weixin.sole();
-var _timeId = Weixin.sole();
 var _onReady = Weixin.sole();
 var _onError = Weixin.sole();
 var _state = Weixin.sole();
 var _readyCallbacks = Weixin.sole();
 var _brokenCallbacks = Weixin.sole();
 var _callbackWrapper = Weixin.sole();
-
-
-Weixin.method(_initEvent, function () {
-    var the = this;
-
-    the[_timeId] = setTimeout(function () {
-        the[_onError]();
-    }, 2000);
-
-    // 旧接口
-    document.addEventListener('WeixinJSBridgeReady', the[_onReady].bind(the));
-});
 
 
 Weixin.method(_onReady, function () {
@@ -306,7 +293,6 @@ Weixin.method(_onReady, function () {
         return;
     }
 
-    clearTimeout(the[_timeId]);
     the[_state] = STATE_READY;
     array.each(the[_readyCallbacks], function (index, callback) {
         callback.call(the);
@@ -320,7 +306,6 @@ Weixin.method(_onError, function (res) {
         return;
     }
 
-    clearTimeout(the[_timeId]);
     the[_state] = STATE_BROKEN;
     array.each(the[_brokenCallbacks], function (index, callback) {
         callback.call(the);
@@ -359,5 +344,9 @@ weixin.is = !!uaMicroMessenger[0];
 weixin.version = uaMicroMessenger[1] || '0.0.0';
 weixin.netWork = uaNetType[1];
 weixin.language = uaLanguage[1];
+
+if (!weixin.is) {
+    time.nextTick(fun.bind(weixin[_onError], weixin));
+}
 
 module.exports = weixin;
