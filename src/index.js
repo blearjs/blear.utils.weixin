@@ -138,7 +138,7 @@ var Weixin = Class.extend({
      * @param shareData.img {String} 分享的图片
      * @returns {Weixin}
      */
-    shareData: function (shareData) {
+    share: function (shareData) {
         var the = this;
 
         shareData = object.assign(the.shareData, shareData);
