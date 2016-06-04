@@ -10,10 +10,10 @@
 
 var string = require('blear.utils.string');
 var object = require('blear.utils.object');
-var fun =    require('blear.utils.function');
+var fun = require('blear.utils.function');
 var typeis = require('blear.utils.typeis');
-var array =  require('blear.utils.array');
-var Class =  require('blear.classes.class');
+var array = require('blear.utils.array');
+var Class = require('blear.classes.class');
 
 
 var wx = require('./_weixin');
@@ -334,15 +334,17 @@ Weixin.method(_callbackWrapper, function (callback) {
             return;
         }
 
-        var resList = (res.errMsg || 'api:ok').split(':');
+        var errMsg = res.errMsg;
+        delete(res.errMsg);
+        var resList = (errMsg || 'api:ok').split(':');
         var name = resList[0].trim();
         var type = resList[1].trim().toLowerCase();
 
         if (type === 'ok') {
-            return callback();
+            return callback(null, res);
         }
 
-        var err = new Error(res.errMsg);
+        var err = new Error(errMsg);
         err.name = name;
         err.type = type;
         callback(err);
