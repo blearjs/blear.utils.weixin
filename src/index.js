@@ -322,8 +322,8 @@ Weixin.method(_callbackWrapper, function (callback) {
         var errMsg = res.errMsg;
         delete(res.errMsg);
         var resList = (errMsg || 'api:ok').split(':');
-        var name = resList[0].trim();
-        var type = resList[1].trim().toLowerCase();
+        var name = string.trim(resList[0] || '');
+        var type = string.trim(resList[1] || '').toLowerCase();
 
         if (type === 'ok') {
             return callback(null, res);
