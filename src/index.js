@@ -25,6 +25,26 @@ var CHOOSE_WXPAY_MSG_MAP = {
     fail: '支付过程出现错误',
     cancel: '你已取消支付'
 };
+var SHARE_MENUS = [
+    "menuItem:share:appMessage",
+    "menuItem:share:timeline",
+    "menuItem:share:qq",
+    "menuItem:share:weiboApp",
+    "menuItem:favorite",
+    "menuItem:share:facebook",
+    "menuItem:share:QZone"
+];
+var EXTERNAL_MENUS = [
+    "menuItem:editTag",
+    "menuItem:delete",
+    "menuItem:copyUrl",
+    "menuItem:originPage",
+    "menuItem:readMode",
+    "menuItem:openWithQQBrowser",
+    "menuItem:openWithSafari",
+    "menuItem:share:email",
+    "menuItem:share:brand"
+];
 
 var ua = navigator.userAgent;
 var parseUA = function (type) {
@@ -225,6 +245,58 @@ var Weixin = Class.extend({
     hideOptionMenu: function () {
         var the = this;
         wx.hideOptionMenu();
+        return the;
+    },
+
+
+    /**
+     * 隐藏分享按钮
+     * @returns {Weixin}
+     */
+    hideShareMenus: function () {
+        var the = this;
+        wx.hideMenuItems({
+            menuList: SHARE_MENUS
+        });
+        return the;
+    },
+
+
+    /**
+     * 隐藏扩展类按钮
+     * @returns {Weixin}
+     */
+    hideExternalMenus: function () {
+        var the = this;
+        wx.hideMenuItems({
+            menuList: EXTERNAL_MENUS
+        });
+        return the;
+    },
+
+
+    /**
+     * 隐藏分享按钮
+     * @returns {Weixin}
+     */
+    showShareMenus: function () {
+        var the = this;
+        wx.showMenuItems({
+            menuList: SHARE_MENUS
+        });
+        return the;
+    },
+
+
+    /**
+     * 隐藏分享按钮
+     * @returns {Weixin}
+     */
+    showExternalMenus: function () {
+        var the = this;
+        wx.showMenuItems({
+            menuList: EXTERNAL_MENUS
+        });
         return the;
     },
 
