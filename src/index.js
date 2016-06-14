@@ -53,6 +53,7 @@ var parseUA = function (type) {
     return ua.match(reg) || ['', ''];
 };
 var uaMicroMessenger = parseUA('MicroMessenger');
+var uaWswechat = ua.match(/WindowsWechat/);
 var uaNetType = parseUA('NetType');
 var uaLanguage = parseUA('Language');
 
@@ -412,7 +413,7 @@ var weixin = new Weixin();
 wx.ready(fun.bind(weixin[_onReady], weixin));
 wx.error(fun.bind(weixin[_onError], weixin));
 weixin.wx = wx;
-weixin.is = !!uaMicroMessenger[0];
+weixin.is = uaWswechat ? false : !!uaMicroMessenger[0];
 weixin.version = uaMicroMessenger[1] || '0.0.0';
 weixin.netWork = uaNetType[1];
 weixin.language = uaLanguage[1];
