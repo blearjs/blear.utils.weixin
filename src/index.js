@@ -37,7 +37,7 @@ var SHARE_MENUS = [
 var EXTERNAL_MENUS = [
     "menuItem:editTag",
     "menuItem:delete",
-    "menuItem:copyUrl",
+    // "menuItem:copyUrl",
     "menuItem:originPage",
     "menuItem:readMode",
     "menuItem:openWithQQBrowser",
