@@ -159,6 +159,7 @@ var Weixin = Class.extend({
      * @param shareData {Object}
      * @param shareData.title {String} 分享的标题
      * @param shareData.desc {String} 分享的描述
+     * @param shareData.timelineDesc {String} 分享到朋友圈的描述
      * @param shareData.link {String} 分享的链接
      * @param shareData.img {String} 分享的图片
      * @param [shareData.type] {String} 分享的类型
@@ -170,7 +171,7 @@ var Weixin = Class.extend({
 
         shareData = object.assign(the.shareData, shareData);
         wx.onMenuShareTimeline({
-            title: shareData.desc, // 分享标题
+            title: shareData.timelineDesc || shareData.title, // 分享标题
             link: shareData.link, // 分享链接
             imgUrl: shareData.img // 分享图标
         });
