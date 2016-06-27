@@ -74,7 +74,10 @@ var Weixin = Class.extend({
         var the = this;
 
         the.configs = null;
-        the.shareData = {};
+        the.shareData = {
+            type: 'link',
+            data: ''
+        };
         the[_state] = STATE_INIT;
         the[_readyCallbacks] = [];
         the[_brokenCallbacks] = [];
@@ -158,18 +161,45 @@ var Weixin = Class.extend({
      * @param shareData.desc {String} 分享的描述
      * @param shareData.link {String} 分享的链接
      * @param shareData.img {String} 分享的图片
+     * @param [shareData.type] {String} 分享的类型
+     * @param [shareData.data] {String} 分享的内容
      * @returns {Weixin}
      */
     share: function (shareData) {
         var the = this;
 
         shareData = object.assign(the.shareData, shareData);
-        shareData.imgUrl = shareData.img;
-        wx.onMenuShareTimeline(shareData);
-        wx.onMenuShareAppMessage(shareData);
-        wx.onMenuShareQQ(shareData);
-        wx.onMenuShareQZone(shareData);
-        wx.onMenuShareWeibo(shareData);
+        wx.onMenuShareTimeline({
+            title: shareData.desc, // 分享标题
+            link: shareData.link, // 分享链接
+            imgUrl: shareData.img // 分享图标
+        });
+        wx.onMenuShareAppMessage({
+            title: shareData.title, // 分享标题
+            desc: shareData.desc, // 分享描述
+            link: shareData.link, // 分享链接
+            imgUrl: shareData.img, // 分享图标
+            type: shareData.type, // 分享类型，music、video或link，不填默认为link
+            dataUrl: shareData.data // 如果type是music或video，则要提供数据链接，默认为空
+        });
+        wx.onMenuShareQQ({
+            title: shareData.title, // 分享标题
+            desc: shareData.desc, // 分享描述
+            link: shareData.link, // 分享链接
+            imgUrl: shareData.img // 分享图标
+        });
+        wx.onMenuShareQZone({
+            title: shareData.title, // 分享标题
+            desc: shareData.desc, // 分享描述
+            link: shareData.link, // 分享链接
+            imgUrl: shareData.img // 分享图标
+        });
+        wx.onMenuShareWeibo({
+            title: shareData.title, // 分享标题
+            desc: shareData.desc, // 分享描述
+            link: shareData.link, // 分享链接
+            imgUrl: shareData.img // 分享图标
+        });
     },
 
 
