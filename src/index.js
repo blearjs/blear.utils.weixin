@@ -444,10 +444,15 @@ var weixin = new Weixin();
 wx.ready(fun.bind(weixin[_onReady], weixin));
 wx.error(fun.bind(weixin[_onError], weixin));
 weixin.wx = wx;
-weixin.is = uaWswechat ? false : !!uaMicroMessenger[0];
+weixin.is = uaWswechat || !!uaMicroMessenger[0];
 weixin.version = uaMicroMessenger[1] || '0.0.0';
 weixin.netWork = uaNetType[1];
 weixin.language = uaLanguage[1];
+
+// windows 版微信内嵌浏览器不会主动触发 ready 事件
+if (uaWswechat) {
+    time.nextTick(fun.bind(weixin[_onReady], weixin));
+}
 
 if (!weixin.is) {
     time.nextTick(fun.bind(weixin[_onError], weixin));
