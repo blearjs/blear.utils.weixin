@@ -380,6 +380,21 @@ var Weixin = Class.extend({
         });
 
         return the;
+    },
+
+
+    /**
+     * 扫码
+     * @param auto {Boolean} 是否自动处理
+     * @param callback
+     */
+    scan: function (auto, callback) {
+        var the = this;
+        wx.scanQRCode({
+            needResult: auto ? 0 : 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+            scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+            complete: the[_callbackWrapper](callback)
+        });
     }
 });
 var _onReady = Weixin.sole();
