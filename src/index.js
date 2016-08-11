@@ -387,14 +387,45 @@ var Weixin = Class.extend({
      * 扫码
      * @param auto {Boolean} 是否自动处理
      * @param callback
+     * @returns {Weixin}
      */
     scan: function (auto, callback) {
         var the = this;
         wx.scanQRCode({
             needResult: auto ? 0 : 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-            scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+            scanType: ["qrCode", "barCode"], // 可以指定扫二维码还是一维码，默认二者都有
             complete: the[_callbackWrapper](callback)
         });
+        return the;
+    },
+
+
+    /**
+     * 上传单张图片
+     * @param callback
+     * @returns {Weixin}
+     */
+    uploadImage: function (callback) {
+        var the = this;
+
+        wx.chooseImage({
+            count: 1, // 默认9
+            sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+            sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+            complete: the[_callbackWrapper](function (err, res) {
+                if (err) {
+                    return callback(err);
+                }
+
+                wx.uploadImage({
+                    localId: res.localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+                    isShowProgressTips: 1, // 默认为1，显示进度提示
+                    complete: the[_callbackWrapper](callback)
+                });
+            })
+        });
+
+        return the;
     }
 });
 var _onReady = Weixin.sole();
