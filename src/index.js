@@ -25,6 +25,14 @@ var CHOOSE_WXPAY_MSG_MAP = {
     fail: '支付过程出现错误',
     cancel: '你已取消支付'
 };
+var CHOOSE_IMAGE_MSG_MAP = {
+    fail: '选择图片失败',
+    cancel: '你已取消上传'
+};
+var UPLOAD_IMAGE_MSG_MAP = {
+    fail: '上传图片失败',
+    cancel: '你已取消上传'
+};
 var SHARE_MENUS = [
     "menuItem:share:appMessage",
     "menuItem:share:timeline",
@@ -414,13 +422,19 @@ var Weixin = Class.extend({
             sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
             complete: the[_callbackWrapper](function (err, res) {
                 if (err) {
-                    return callback(err);
+                    return callback(new Error(CHOOSE_IMAGE_MSG_MAP[err.type] || CHOOSE_IMAGE_MSG_MAP.fail));
                 }
 
                 wx.uploadImage({
                     localId: res.localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
                     isShowProgressTips: 1, // 默认为1，显示进度提示
-                    complete: the[_callbackWrapper](callback)
+                    complete: the[_callbackWrapper](function (err, res) {
+                        if(!err) {
+                            return callback(err, res);
+                        }
+
+                        callback(new Error(UPLOAD_IMAGE_MSG_MAP[err.type] || UPLOAD_IMAGE_MSG_MAP.fail));
+                    })
                 });
             })
         });
