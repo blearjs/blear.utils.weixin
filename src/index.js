@@ -21,18 +21,6 @@ var wx = require('./_weixin');
 
 
 var JS_API_LIST = ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'pauseVoice', 'stopVoice', 'onVoicePlayEnd', 'uploadVoice', 'downloadVoice', 'chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'translateVoice', 'getNetworkType', 'openLocation', 'getLocation', 'hideOptionMenu', 'showOptionMenu', 'hideMenuItems', 'showMenuItems', 'hideAllNonBaseMenuItem', 'showAllNonBaseMenuItem', 'closeWindow', 'scanQRCode', 'chooseWXPay', 'openProductSpecificView', 'addCard', 'chooseCard', 'openCard'];
-var CHOOSE_WXPAY_MSG_MAP = {
-    fail: '支付过程出现错误',
-    cancel: '你已取消支付'
-};
-var CHOOSE_IMAGE_MSG_MAP = {
-    fail: '选择图片失败',
-    cancel: '你已取消上传'
-};
-var UPLOAD_IMAGE_MSG_MAP = {
-    fail: '上传图片失败',
-    cancel: '你已取消上传'
-};
 var SHARE_MENUS = [
     "menuItem:share:appMessage",
     "menuItem:share:timeline",
