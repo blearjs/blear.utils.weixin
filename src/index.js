@@ -376,14 +376,7 @@ var Weixin = Class.extend({
                 return callback(new Error('当前微信客户端不支持微信支付'));
             }
 
-            data.complete = the[_callbackWrapper](function (err) {
-                if (!err) {
-                    return callback();
-                }
-
-                var errMsg = CHOOSE_WXPAY_MSG_MAP[err.type] || CHOOSE_WXPAY_MSG_MAP.fail;
-                callback(new Error(errMsg))
-            });
+            data.complete = the[_callbackWrapper](callback);
             wx.chooseWXPay(data);
         });
 
@@ -422,19 +415,13 @@ var Weixin = Class.extend({
             sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
             complete: the[_callbackWrapper](function (err, res) {
                 if (err) {
-                    return callback(new Error(CHOOSE_IMAGE_MSG_MAP[err.type] || CHOOSE_IMAGE_MSG_MAP.fail));
+                    return callback(err);
                 }
 
                 wx.uploadImage({
                     localId: res.localIds[0], // 需要上传的图片的本地ID，由chooseImage接口获得
                     isShowProgressTips: 1, // 默认为1，显示进度提示
-                    complete: the[_callbackWrapper](function (err, res) {
-                        if(!err) {
-                            return callback(err, res);
-                        }
-
-                        callback(new Error(UPLOAD_IMAGE_MSG_MAP[err.type] || UPLOAD_IMAGE_MSG_MAP.fail));
-                    })
+                    complete: the[_callbackWrapper](callback)
                 });
             })
         });
@@ -448,9 +435,10 @@ var _state = Weixin.sole();
 var _readyCallbacks = Weixin.sole();
 var _brokenCallbacks = Weixin.sole();
 var _callbackWrapper = Weixin.sole();
+var pro = Weixin.prototype;
 
 
-Weixin.method(_onReady, function () {
+pro[_onReady] = function () {
     var the = this;
 
     if (the[_state] > STATE_INIT) {
@@ -461,9 +449,9 @@ Weixin.method(_onReady, function () {
     array.each(the[_readyCallbacks], function (index, callback) {
         callback.call(the);
     });
-});
+};
 
-Weixin.method(_onError, function (res) {
+pro[_onError]= function (res) {
     var the = this;
 
     if (the[_state] > STATE_INIT) {
@@ -474,10 +462,10 @@ Weixin.method(_onError, function (res) {
     array.each(the[_brokenCallbacks], function (index, callback) {
         callback.call(the);
     });
-});
+};
 
 
-Weixin.method(_callbackWrapper, function (callback) {
+pro[_callbackWrapper] = function (callback) {
     return function (res) {
         if (!typeis.Function(callback)) {
             return;
@@ -498,7 +486,7 @@ Weixin.method(_callbackWrapper, function (callback) {
         err.type = type;
         callback(err);
     };
-});
+};
 
 var weixin = new Weixin();
 wx.ready(fun.bind(weixin[_onReady], weixin));
