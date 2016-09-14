@@ -439,7 +439,7 @@ pro[_onReady] = function () {
     });
 };
 
-pro[_onError]= function (res) {
+pro[_onError] = function (res) {
     var the = this;
 
     if (the[_state] > STATE_INIT) {
@@ -467,6 +467,16 @@ pro[_callbackWrapper] = function (callback) {
 
         if (type === 'ok') {
             return callback(null, res);
+        }
+
+        switch (type) {
+            case 'cancel':
+                errMsg = '操作取消';
+                break;
+
+            case 'fail':
+                errMsg = '客户端错误';
+                break;
         }
 
         var err = new Error(errMsg);
