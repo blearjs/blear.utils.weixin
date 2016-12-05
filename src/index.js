@@ -41,7 +41,7 @@ var EXTERNAL_MENUS = [
     "menuItem:share:email",
     "menuItem:share:brand"
 ];
-
+var geolocationCallbackList = [];
 var ua = navigator.userAgent;
 var parseUA = function (type) {
     var reg = new RegExp(string.escapeRegExp(type) + '\/([^ ]*)', 'i');
@@ -246,7 +246,7 @@ var Weixin = Class.extend({
 
 
     /**
-     * 获取地理位置信息
+     * 获取地理位置信息，同时调用会出错，回调最后一次 callback，故此使用一个 list 来维护，保证微信 js 只回调一次
      * @param callback
      * return var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
      * return var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
@@ -257,9 +257,15 @@ var Weixin = Class.extend({
     getLocation: function (callback) {
         var the = this;
 
+        if (geolocationCallbackList.length) {
+            geolocationCallbackList.push(callback);
+            return the;
+        }
+
+        geolocationCallbackList.push(callback);
         wx.getLocation({
             type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-            complete: the[_callbackWrapper](callback)
+            complete: the[_callbackWrapper](geolocationCallbackList)
         });
 
         return the;
@@ -423,6 +429,7 @@ var _state = Weixin.sole();
 var _readyCallbacks = Weixin.sole();
 var _brokenCallbacks = Weixin.sole();
 var _callbackWrapper = Weixin.sole();
+var _callbackListWrapper = Weixin.sole();
 var pro = Weixin.prototype;
 
 
@@ -453,11 +460,29 @@ pro[_onError] = function (res) {
 };
 
 
-pro[_callbackWrapper] = function (callback) {
-    return function (res) {
-        if (!typeis.Function(callback)) {
-            return;
+// 回调列表回调生成器
+pro[_callbackListWrapper] = function (callbackList) {
+    return function () {
+        while (callbackList.length) {
+            var callback = callbackList.pop();
+            callback = fun.noop(callback);
+            callback.apply(this, arguments);
         }
+    };
+};
+
+
+// 回调包装器
+pro[_callbackWrapper] = function (callback) {
+    var the = this;
+
+    if (typeis.Array(callback)) {
+        callback = the[_callbackListWrapper](callback);
+    }
+
+    callback = fun.noop(callback);
+
+    return function (res) {
 
         var errMsg = res.errMsg;
         delete(res.errMsg);
