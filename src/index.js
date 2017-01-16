@@ -17,7 +17,15 @@ var array = require('blear.utils.array');
 var Class = require('blear.classes.class');
 
 
-var wx = require('./_weixin');
+var wx = global.wx;
+
+if (!wx) {
+    if (typeof DEBUG !== 'undefined' && DEBUG) {
+        throw new SyntaxError('需要先引入官网 jssdk 脚本，详细文档参考 https://blear.ydr.me/utils/weixin');
+    }
+
+    return;
+}
 
 
 var JS_API_LIST = ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'pauseVoice', 'stopVoice', 'onVoicePlayEnd', 'uploadVoice', 'downloadVoice', 'chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'translateVoice', 'getNetworkType', 'openLocation', 'getLocation', 'hideOptionMenu', 'showOptionMenu', 'hideMenuItems', 'showMenuItems', 'hideAllNonBaseMenuItem', 'showAllNonBaseMenuItem', 'closeWindow', 'scanQRCode', 'chooseWXPay', 'openProductSpecificView', 'addCard', 'chooseCard', 'openCard'];
