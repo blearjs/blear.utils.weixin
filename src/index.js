@@ -362,7 +362,7 @@ var Weixin = Class.extend({
      * @param [callback] {Function} 回调
      * @returns {Weixin}
      */
-    chooseWXPay: function (signature, callback) {
+    pay: function (signature, callback) {
         var the = this;
         var configs = the.configs;
         var data = object.assign({
@@ -405,7 +405,7 @@ var Weixin = Class.extend({
      * @param callback
      * @returns {Weixin}
      */
-    uploadImage: function (callback) {
+    upload: function (callback) {
         var the = this;
 
         wx.chooseImage({
@@ -428,13 +428,14 @@ var Weixin = Class.extend({
         return the;
     }
 });
-var _onReady = Weixin.sole();
-var _onError = Weixin.sole();
-var _state = Weixin.sole();
-var _readyCallbacks = Weixin.sole();
-var _brokenCallbacks = Weixin.sole();
-var _callbackWrapper = Weixin.sole();
-var _callbackListWrapper = Weixin.sole();
+var sole = Weixin.sole;
+var _onReady = sole();
+var _onError = sole();
+var _state = sole();
+var _readyCallbacks = sole();
+var _brokenCallbacks = sole();
+var _callbackWrapper = sole();
+var _callbackListWrapper = sole();
 var pro = Weixin.prototype;
 
 
