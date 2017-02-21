@@ -488,7 +488,7 @@ pro[_callbackWrapper] = function (callback) {
     callback = fun.noop(callback);
 
     return function (res) {
-        if (typeof DEBUG !== 'undefined' && DBEUG) {
+        if (typeof DEBUG !== 'undefined' && DEBUG) {
             console.log('response:', res);
         }
 
