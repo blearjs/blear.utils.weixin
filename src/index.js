@@ -502,13 +502,14 @@ pro[_callbackWrapper] = function (callback) {
             return callback(null, res);
         }
 
-        // 用户主动取消操作，无须回调
-        if (type === 'cancel') {
-            return;
-        }
+        switch (type) {
+            case 'cancel':
+                msg = '操作取消';
+                break;
 
-        if (type === 'fail') {
-            msg = '客户端错误';
+            case 'fail':
+                msg = '客户端错误';
+                break;
         }
 
         callback(new Error(type, msg));
