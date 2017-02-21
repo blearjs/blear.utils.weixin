@@ -23,6 +23,7 @@ var typeis = require('blear.utils.typeis');
 var time = require('blear.utils.time');
 var array = require('blear.utils.array');
 var Class = require('blear.classes.class');
+var Error = require('blear.classes.error');
 
 var JS_API_LIST = ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'pauseVoice', 'stopVoice', 'onVoicePlayEnd', 'uploadVoice', 'downloadVoice', 'chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'translateVoice', 'getNetworkType', 'openLocation', 'getLocation', 'hideOptionMenu', 'showOptionMenu', 'hideMenuItems', 'showMenuItems', 'hideAllNonBaseMenuItem', 'showAllNonBaseMenuItem', 'closeWindow', 'scanQRCode', 'chooseWXPay', 'openProductSpecificView', 'addCard', 'chooseCard', 'openCard'];
 var SHARE_MENUS = [
@@ -488,10 +489,10 @@ pro[_callbackWrapper] = function (callback) {
 
     return function (res) {
 
-        var errMsg = res.errMsg;
+        var msg = res.errMsg;
         delete(res.errMsg);
-        var resList = (errMsg || 'api:ok').split(':');
-        var name = string.trim(resList[0] || '');
+        var resList = (msg || 'api:ok').split(':');
+        // var name = string.trim(resList[0] || '');
         var type = string.trim(resList[1] || '').toLowerCase();
 
         if (type === 'ok') {
@@ -500,18 +501,15 @@ pro[_callbackWrapper] = function (callback) {
 
         switch (type) {
             case 'cancel':
-                errMsg = '操作取消';
+                msg = '操作取消';
                 break;
 
             case 'fail':
-                errMsg = '客户端错误';
+                msg = '客户端错误';
                 break;
         }
 
-        var err = new Error(errMsg);
-        err.name = name;
-        err.type = type;
-        callback(err);
+        callback(new Error(type, msg));
     };
 };
 
