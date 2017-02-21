@@ -8,18 +8,7 @@
  */
 
 
-var string = require('blear.utils.string');
-var object = require('blear.utils.object');
-var fun = require('blear.utils.function');
-var typeis = require('blear.utils.typeis');
-var time = require('blear.utils.time');
-var array = require('blear.utils.array');
-var Class = require('blear.classes.class');
-
-
-var wx = global.wx;
-
-if (!wx) {
+if (typeof wx === 'undefined') {
     if (typeof DEBUG !== 'undefined' && DEBUG) {
         throw new SyntaxError('需要先引入官网 jssdk 脚本，详细文档参考 https://blear.ydr.me/utils/weixin');
     }
@@ -27,6 +16,13 @@ if (!wx) {
     return;
 }
 
+var string = require('blear.utils.string');
+var object = require('blear.utils.object');
+var fun = require('blear.utils.function');
+var typeis = require('blear.utils.typeis');
+var time = require('blear.utils.time');
+var array = require('blear.utils.array');
+var Class = require('blear.classes.class');
 
 var JS_API_LIST = ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'startRecord', 'stopRecord', 'onVoiceRecordEnd', 'playVoice', 'pauseVoice', 'stopVoice', 'onVoicePlayEnd', 'uploadVoice', 'downloadVoice', 'chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'translateVoice', 'getNetworkType', 'openLocation', 'getLocation', 'hideOptionMenu', 'showOptionMenu', 'hideMenuItems', 'showMenuItems', 'hideAllNonBaseMenuItem', 'showAllNonBaseMenuItem', 'closeWindow', 'scanQRCode', 'chooseWXPay', 'openProductSpecificView', 'addCard', 'chooseCard', 'openCard'];
 var SHARE_MENUS = [
