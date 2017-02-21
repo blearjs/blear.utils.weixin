@@ -488,6 +488,9 @@ pro[_callbackWrapper] = function (callback) {
     callback = fun.noop(callback);
 
     return function (res) {
+        if (typeof DEBUG !== 'undefined' && DBEUG) {
+            console.log('response:', res);
+        }
 
         var msg = res.errMsg;
         delete(res.errMsg);
@@ -499,14 +502,13 @@ pro[_callbackWrapper] = function (callback) {
             return callback(null, res);
         }
 
-        switch (type) {
-            case 'cancel':
-                msg = '操作取消';
-                break;
+        // 用户主动取消操作，无须回调
+        if (type === 'cancel') {
+            return;
+        }
 
-            case 'fail':
-                msg = '客户端错误';
-                break;
+        if (type === 'fail') {
+            msg = '客户端错误';
         }
 
         callback(new Error(type, msg));
