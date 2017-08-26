@@ -174,7 +174,9 @@ var Weixin = Class.extend({
         wx.onMenuShareTimeline({
             title: shareData.timelineDesc || shareData.title, // 分享标题
             link: shareData.link, // 分享链接
-            imgUrl: shareData.img // 分享图标
+            imgUrl: shareData.img, // 分享图标
+            success: shareData.success, //分享成功回调
+            cancel: shareData.cancel //分享取消回调
         });
         wx.onMenuShareAppMessage({
             title: shareData.title, // 分享标题
@@ -182,25 +184,33 @@ var Weixin = Class.extend({
             link: shareData.link, // 分享链接
             imgUrl: shareData.img, // 分享图标
             type: shareData.type, // 分享类型，music、video或link，不填默认为link
-            dataUrl: shareData.data // 如果type是music或video，则要提供数据链接，默认为空
+            dataUrl: shareData.data, // 如果type是music或video，则要提供数据链接，默认为空
+            success: shareData.success, //分享成功回调
+            cancel: shareData.cancel //分享取消回调
         });
         wx.onMenuShareQQ({
             title: shareData.title, // 分享标题
             desc: shareData.desc, // 分享描述
             link: shareData.link, // 分享链接
-            imgUrl: shareData.img // 分享图标
+            imgUrl: shareData.img, // 分享图标
+            success: shareData.success, //分享成功回调
+            cancel: shareData.cancel //分享取消回调
         });
         wx.onMenuShareQZone({
             title: shareData.title, // 分享标题
             desc: shareData.desc, // 分享描述
             link: shareData.link, // 分享链接
-            imgUrl: shareData.img // 分享图标
+            imgUrl: shareData.img, // 分享图标
+            success: shareData.success, //分享成功回调
+            cancel: shareData.cancel //分享取消回调
         });
         wx.onMenuShareWeibo({
             title: shareData.title, // 分享标题
             desc: shareData.desc, // 分享描述
             link: shareData.link, // 分享链接
-            imgUrl: shareData.img // 分享图标
+            imgUrl: shareData.img, // 分享图标
+            success: shareData.success, //分享成功回调
+            cancel: shareData.cancel //分享取消回调
         });
     },
 
