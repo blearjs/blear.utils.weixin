@@ -240,7 +240,13 @@ var Weixin = Class.extend({
     previewImage: function (data) {
         var the = this;
 
-        data.activ = data.activ || 0;
+        if (typeis.String(data)) {
+            data = {
+                list: [data]
+            };
+        }
+
+        data.active = data.active || 0;
         wx.previewImage({
             current: data.list[data.active],
             urls: data.list
