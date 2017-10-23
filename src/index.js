@@ -267,6 +267,28 @@ var Weixin = Class.extend({
 
 
     /**
+     * 使用微信内置地图打开位置，可以打开第三方地图
+     * @param config
+     * @param config.longitude
+     * @param config.latitude
+     * @param config.name
+     * @param config.address
+     * @param config.scale
+     * @param config.infoUrl
+     */
+    openLocation: function (config) {
+        wx.openLocation(object.assign({}, {
+            longitude: 0,
+            latitude: 0,
+            name: '',
+            address: '',
+            scale: 1,
+            infoUrl: ''
+        }, config));
+    },
+
+
+    /**
      * 获取地理位置信息，同时调用会出错，回调最后一次 callback，故此使用一个 list 来维护，保证微信 js 只回调一次
      * @param callback
      * return var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
