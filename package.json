@@ -1,6 +1,6 @@
 {
   "name": "blear.utils.weixin",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "description": "微信 JSSDK 二次封装",
   "scripts": {
     "live": "browser-sync start --config bs-config.js"
@@ -35,14 +35,15 @@
     "url": "https://github.com/blearjs/blear.utils.weixin/issues"
   },
   "dependencies": {
-    "blear.utils.string": "1.x",
-    "blear.utils.object": "1.x",
-    "blear.utils.function": "1.x",
-    "blear.utils.typeis": "1.x",
-    "blear.utils.time": "1.x",
-    "blear.utils.array": "1.x",
+    "blear.classes.class": "1.x",
     "blear.classes.error": "1.x",
-    "blear.classes.class": "1.x"
+    "blear.utils.array": "1.x",
+    "blear.utils.function": "1.x",
+    "blear.utils.number": "^1.0.3",
+    "blear.utils.object": "1.x",
+    "blear.utils.string": "1.x",
+    "blear.utils.time": "1.x",
+    "blear.utils.typeis": "1.x"
   },
   "peerDependencies": {},
   "devDependencies": {},

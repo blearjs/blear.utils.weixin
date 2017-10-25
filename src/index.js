@@ -22,6 +22,7 @@ var fun = require('blear.utils.function');
 var typeis = require('blear.utils.typeis');
 var time = require('blear.utils.time');
 var array = require('blear.utils.array');
+var number = require('blear.utils.number');
 var Class = require('blear.classes.class');
 var Error = require('blear.classes.error');
 
@@ -268,23 +269,27 @@ var Weixin = Class.extend({
 
     /**
      * 使用微信内置地图打开位置，可以打开第三方地图
-     * @param config
-     * @param config.longitude 经度，浮点数，范围为180 ~ -180
-     * @param config.latitude 纬度，浮点数，范围为90 ~ -90
-     * @param config.name 位置名
-     * @param config.address 地址详情说明
-     * @param config.scale 地图缩放级别,整形值,范围从1~28。默认为最大
-     * @param config.infoUrl 在查看位置界面底部显示的超链接,可点击跳转
+     * @param options
+     * @param options.longitude 经度，浮点数，范围为180 ~ -180
+     * @param options.latitude 纬度，浮点数，范围为90 ~ -90
+     * @param options.name 位置名
+     * @param options.address 地址详情说明
+     * @param options.scale 地图缩放级别,整形值,范围从1~28。默认为最大
+     * @param options.infoUrl 在查看位置界面底部显示的超链接,可点击跳转
      */
-    openLocation: function (config) {
-        wx.openLocation(object.assign({}, {
+    openLocation: function (options) {
+        options = object.assign({}, {
             longitude: 0,
             latitude: 0,
             name: '',
             address: '',
             scale: 28,
             infoUrl: ''
-        }, config));
+        }, options);
+        options.longitude = number.parseFloat(options.longitude);
+        options.latitude = number.parseFloat(options.latitude);
+        options.scale = number.parseInt(options.scale, 28);
+        wx.openLocation(options);
     },
 
 
