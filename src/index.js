@@ -3,7 +3,7 @@
  * @author ydr.me
  * @create 2015-12-15 10:40
  * @update 2016年05月27日15:50:59
- * @doc https://mp.weixin.qq.com/wiki/7/aaa137b55fb2e0456bf8dd9148dd613f.html
+ * @doc https://mp.weixin.qq.com/wiki?t=resource/res_main&id=mp1421141115
  * @check https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=jsapisign
  */
 
@@ -469,6 +469,14 @@ var Weixin = Class.extend({
         });
 
         return the;
+    },
+
+
+    /**
+     * 关闭当前页面
+     */
+    close: function () {
+        wx.closeWindow();
     }
 });
 var sole = Weixin.sole;
